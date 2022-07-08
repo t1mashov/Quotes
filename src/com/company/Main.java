@@ -18,6 +18,7 @@ public class Main extends JFrame {
     public Main() {
         start();
 
+        // переход на первую страницу
         JPanel pageStart = new StartPagePanel(this);
         pageStart.setBounds(0, 0, width, height);
         this.changePage(pageStart);
@@ -41,7 +42,7 @@ public class Main extends JFrame {
         this.setTitle("Quotes");
         this.setLayout(null);
         this.setResizable(false);
-        this.setVisible(true); // --> paint(g)
+        this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 

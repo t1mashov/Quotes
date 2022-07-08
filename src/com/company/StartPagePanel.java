@@ -27,7 +27,7 @@ public class StartPagePanel extends JPanel {
 
         bw = 200;
         JButton enterGuest = new JButton("Вход без регистрации");
-        enterGuest.addActionListener(e -> main.changePage(new JPanel()));
+        enterGuest.addActionListener(e -> main.changePage(new ReaderPagePanel(main)));
         enterGuest.setBounds(
                 main.getWidth()/2-bw/2, main.getHeight()/3-bh/2+(bh+10)*2,
                 bw, bh

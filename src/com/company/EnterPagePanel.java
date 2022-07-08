@@ -37,6 +37,8 @@ public class EnterPagePanel extends JPanel {
 
         ArrayList<User> users = main.database.getUsers();
         enter.addActionListener(e -> {
+
+            // проверка на правильность логина и пароля
             String userLogin = login.getText();
             String userPassword = password.getText();
             boolean correct = false;
@@ -47,9 +49,10 @@ public class EnterPagePanel extends JPanel {
                 }
             }
             if (correct) {
+
                 error.setText("");
-
-
+                main.currentUser.updateControlledUserId(main);
+                main.changePage(new MenuPanel(main));
 
             } else {
                 error.setText("<html><span style=\"color:red\">Неверный логин или пароль!</span></html>");

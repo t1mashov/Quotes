@@ -7,6 +7,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RegPagePanel extends JPanel {
+
+    JButton reg;
+    JTextField login, password;
+    JLabel error;
+    ArrayList<Group> groups;
+    JComboBox<String> groupsBox;
+
     public RegPagePanel(Main main) {
         this.setLayout(null);
         this.setBackground(new Color(220,220,220));
@@ -19,26 +26,26 @@ public class RegPagePanel extends JPanel {
         loginText.setFont(new Font("Arial", Font.PLAIN, 20));
         loginText.setBounds(main.getWidth()/2-100, main.getHeight()/2-100, 50, 30);
 
-        JTextField login = new JTextField();
+        login = new JTextField();
         login.setBounds(main.getWidth()/2-40, main.getHeight()/2-100, 200, 30);
 
         JLabel passwordText = new JLabel("пароль: ");
         passwordText.setFont(new Font("Arial", Font.PLAIN, 20));
         passwordText.setBounds(main.getWidth()/2-120, main.getHeight()/2-100+40, 100,30);
 
-        JTextField password = new JTextField();
+        password = new JTextField();
         password.setBounds(main.getWidth()/2-40, main.getHeight()/2-100+40, 200, 30);
 
         JLabel groupText = new JLabel("группа: ");
         groupText.setFont(new Font("Arial", Font.PLAIN, 20));
         groupText.setBounds(main.getWidth()/2-120, main.getHeight()/2-100+40*2, 100,30);
 
-        ArrayList<Group> groups = main.database.getGroups();
+        groups = main.database.getGroups();
 
         String[] groupNames = groups.stream()
                 .map(g -> g.num)
                 .toArray(String[]::new);
-        JComboBox<String> groupsBox = new JComboBox(groupNames);
+        groupsBox = new JComboBox(groupNames);
         groupsBox.setBounds(main.getWidth()/2-40, main.getHeight()/2-100+40*2, 100, 30);
 
         List<String> usersLogins = Arrays.stream(main.database.getUsers()
@@ -48,11 +55,11 @@ public class RegPagePanel extends JPanel {
                 .toList();
 
 
-        JLabel error = new JLabel("");
+        error = new JLabel("");
         error.setFont(new Font("Arial", Font.PLAIN, 20));
         error.setBounds(main.getWidth()/2-150, 50, 300, 30);
 
-        JButton reg = new JButton("Зарегистрироваться");
+        reg = new JButton("Зарегистрироваться");
         reg.setBounds(main.getWidth()/2-80, main.getHeight()/2-100+40*3, 160, 30);
         reg.addActionListener(e -> {
             String userLogin = login.getText().strip();

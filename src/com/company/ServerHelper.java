@@ -66,23 +66,121 @@ public class ServerHelper {
             res = statement.executeQuery(
                     "SELECT id FROM `role` WHERE `name`=\"default_user\""
             );
-            if (res.next()) defaultUserId = res.getInt("id");
 
+            if (res.next()) defaultUserId = res.getInt("id");
             statement.executeUpdate(
-                    "INSERT INTO user_role (`id_user`, `id_role`) VALUES ("+userId+", "+defaultUserId+")"
+                    "INSERT INTO user_role (`id_user`, `id_role`, `verify_group_id`) VALUES ("+userId+", "+defaultUserId+", 1)"
             );
 
         } catch (Exception e) {
-            System.out.println("SOME ERROR");
+            System.out.println("ERROR IN registerUser()");
         }
 
     }
 
 
+    public ArrayList<Quote> getQuotes() {
+        ArrayList<Quote> quotes = new ArrayList<>();
 
-//    public ArrayList<Integer> getEditableQuoteId(User user) {
-//        ArrayList<Integer> res = new ArrayList<>();
-//
-//    }
+        try {
+            ResultSet result = statement.executeQuery(
+                    "SELECT * FROM `quote`"
+            );
+            while (result.next()) {
+                quotes.add(new Quote(
+                        result.getInt("id"),
+                        result.getString("subject"),
+                        result.getString("teacher"),
+                        result.getString("quote"),
+                        result.getDate("date"),
+                        result.getInt("user_id")
+                ));
+            }
+        } catch (Exception e) {}
+        return quotes;
+    }
+
+    public ArrayList<UserRole> getUsersRoles() {
+        ArrayList<UserRole> usersRoles = new ArrayList<>();
+        try {
+            ResultSet result = statement.executeQuery(
+                    "SELECT * FROM `user_role`"
+            );
+            while (result.next()) {
+                usersRoles.add(new UserRole(
+                        result.getInt("id_user"),
+                        result.getInt("id_role"),
+                        result.getInt("verify_group_id")
+                ));
+            }
+        } catch (Exception e) {}
+        return usersRoles;
+    }
+
+    public ArrayList<Role> getRoles() {
+        ArrayList<Role> roles = new ArrayList<>();
+        try {
+            ResultSet result = statement.executeQuery(
+                    "SELECT * FROM `role`"
+            );
+            while (result.next()) {
+                roles.add(new Role(
+                        result.getInt("id"),
+                        result.getString("name")
+                ));
+            }
+        } catch (Exception e) {}
+        return roles;
+    }
+
+    public void addQuote(int userId, String quote, String subject, String teacher, String date) {
+        try {
+            statement.executeUpdate(
+                    "INSERT INTO `quote` (`subject`, `teacher`, `quote`, `date`, `user_id`)" +
+                        "VALUES (\""+subject+"\", \""+teacher+"\", \""+quote+"\", Date(\""+date+"\"), "+userId+")"
+            );
+        } catch (Exception e) {
+            System.out.println("ERROR IN addQuote()");
+        }
+    }
+
+    public void updateUserData(int userId, String userLogin, String userPassword, int userIdGroup) {
+        try {
+            System.out.println(userId+", "+userLogin+", "+userPassword+", "+userIdGroup);
+            statement.executeUpdate(
+                    "UPDATE `user` "+
+                        "SET `login` = \""+userLogin+"\", `password` = \""+userPassword+"\", `id_group` = "+userIdGroup+" "+
+                        "WHERE `id` = "+userId
+            );
+        } catch (Exception e) {
+            System.out.println("ERROR IN updateUserData()");
+        }
+    }
+
+    public void updateQuote(int quoteId, String subject, String teacher, String quote, String date) {
+        try {
+            String query = "UPDATE `quote` "+
+                    "SET `subject`=\""+subject+"\", "+
+                    "`teacher`=\""+teacher+"\", "+
+                    "`quote`=\""+quote+"\", " +
+                    "`date`=Date(\""+date+"\") " +
+                    "WHERE `id` = "+quoteId;
+            System.out.println(query);
+            statement.executeUpdate(query);
+        } catch (Exception e) {
+            System.out.println("ERROR IN updateQuote()");
+        }
+    }
+
+    public void deleteQuote(int id) {
+        try {
+            statement.executeUpdate(
+                    "DELETE FROM `quote` WHERE `id` = "+id
+            );
+        } catch (Exception e) {
+            System.out.println("ERROR IN deleteQuote()");
+        }
+    }
+
 
 }
