@@ -178,12 +178,13 @@ public class ServerHelper {
 
     public void updateQuote(int quoteId, String subject, String teacher, String quote, String date) {
         try {
-            String query = "UPDATE `quote` "+
-                    "SET `subject`=\""+subject+"\", "+
-                    "`teacher`=\""+teacher+"\", "+
-                    "`quote`=\""+quote+"\", " +
-                    "`date`=Date(\""+date+"\") " +
-                    "WHERE `id` = "+quoteId;
+            String query = !date.equals("")
+                    ? String.format(
+                        "UPDATE `quote` SET `subject`=\"%s\", `teacher`=\"%s\", `quote`=\"%s\", `date`=Date(\"%s\") WHERE `id` = %s",
+                        subject, teacher, quote, date, quoteId)
+                    : String.format(
+                        "UPDATE `quote` SET `subject`=\"%s\", `teacher`=\"%s\", `quote`=\"%s\", date=null WHERE `id` = %s",
+                        subject, teacher, quote, quoteId);
             System.out.println(query);
             statement.executeUpdate(query);
         } catch (Exception e) {

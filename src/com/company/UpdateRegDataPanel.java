@@ -42,6 +42,7 @@ public class UpdateRegDataPanel extends RegPagePanel {
                         .toArray(Group[]::new)[0].id;
 
                 main.database.updateUserData(main.currentUser.id, userLogin, userPassword, userIdGroup);
+                main.table.updateUsers();
 
                 main.previousPage();
             }

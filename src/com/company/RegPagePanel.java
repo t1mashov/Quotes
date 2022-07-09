@@ -77,6 +77,7 @@ public class RegPagePanel extends JPanel {
                         .toArray(Group[]::new)[0].id;
 
                 main.database.registerUser(userLogin, userPassword, userIdGroup);
+                main.table.updateUsers();
 
                 main.changePage(new EnterPagePanel(main));
             }

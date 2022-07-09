@@ -13,6 +13,36 @@ public class RegQuotePanel extends JPanel {
 
     Quote selectedQuote;
 
+
+    // создание/обновление окна с цитатами
+    public void updateContentPanel() {
+        if (table!=null) this.remove(table);
+        if (scrollTable!=null) this.remove(scrollTable);
+
+        table = new JPanel();
+        table.setBackground(new Color(220,220,220));
+        main.table.updateQuotes();
+        ArrayList<Quote> allQuotes = TableObjectsBox.quotes;
+
+        table.setLayout(new GridLayout(allQuotes.size(), 1));
+        for (Quote q : allQuotes) {
+            table.add(new QuoteFragment(
+                    main.currentUser.controlledUserId.contains(q.user_id),
+                    q,
+                    this
+            ));
+        }
+        table.setPreferredSize(new Dimension(main.getWidth()-20, allQuotes.size()*130));
+
+        scrollTable = new JScrollPane(table);
+        scrollTable.setBounds(10, 10, main.getWidth()-40, main.getHeight()/2-10);
+        scrollTable.getVerticalScrollBar().setUnitIncrement(5);
+
+        this.add(scrollTable);
+        this.repaint();
+    }
+
+
     public RegQuotePanel(Main main) {
         this.main = main;
         this.setLayout(null);
@@ -44,9 +74,11 @@ public class RegQuotePanel extends JPanel {
                     nq.quoteArea.getText(),
                     nq.date.getText()
             );
+            main.table.updateQuotes();
 
             updateContentPanel();
             this.add(newQuote);
+            main.revalidate();
         });
 
         delete = new JButton("Удалить");
@@ -58,9 +90,11 @@ public class RegQuotePanel extends JPanel {
             this.remove(nq);
 
             main.database.deleteQuote(selectedQuote.id);
+            main.table.updateQuotes();
 
             updateContentPanel();
             this.add(newQuote);
+            main.revalidate();
         });
 
         undo = new JButton("Отмена");
@@ -103,42 +137,16 @@ public class RegQuotePanel extends JPanel {
                     nq.teacher.getText(),
                     nq.date.getText()
             );
+            main.table.updateQuotes();
 
             updateContentPanel();
-
+            main.revalidate();
         });
 
 
         this.add(newQuote);
         this.add(back);
         this.add(scrollTable);
-    }
-
-    // создание/обновление окна с цитатами
-    public void updateContentPanel() {
-        if (table!=null) this.remove(table);
-        if (scrollTable!=null) this.remove(scrollTable);
-
-        table = new JPanel();
-        table.setBackground(new Color(220,220,220));
-        ArrayList<Quote> allQuotes = main.database.getQuotes();
-
-        table.setLayout(new GridLayout(allQuotes.size(), 1));
-        for (Quote q : allQuotes) {
-            table.add(new QuoteFragment(
-                    main.currentUser.controlledUserId.contains(q.user_id),
-                    q,
-                    this
-            ));
-        }
-        table.setPreferredSize(new Dimension(main.getWidth()-20, allQuotes.size()*130));
-
-        scrollTable = new JScrollPane(table);
-        scrollTable.setBounds(10, 10, main.getWidth()-40, main.getHeight()/2-10);
-        scrollTable.getVerticalScrollBar().setUnitIncrement(5);
-
-        this.add(scrollTable);
-        this.repaint();
     }
 
     // включить режим редактирования
@@ -192,17 +200,26 @@ class QuoteFragment extends JPanel {
         teacher = new JLabel(_quote.teacher);
         date = new JLabel(_quote.date!=null ? _quote.date.toString() : "");
 
+        try {
+            User user = User.findUserById(_quote.user_id);
+            String userName = user.login;
+            String userGroup = Group.findGroupById(user.id_group).num;
+            JLabel userText = new JLabel("<html><span style=\"color:#aaaaaa\">"+userName+", "+userGroup+"</span></html>");
+            userText.setBounds(5, 0, 200, 30);
+            quotePanel.add(userText);
+        } catch (Exception e) {}
+
         subject.setBounds(5, 70, 200, 30);
         teacher.setBounds(600-teacher.getText().length()*5, 70, 200, 30);
         date.setBounds(650-100, 95, 100, 30);
+
+        quotePanel.setBackground(new Color(210, 210, 210));
+        quotePanel.setBounds(70, 10, 650, 130);
 
         quotePanel.add(quote);
         quotePanel.add(subject);
         quotePanel.add(teacher);
         quotePanel.add(date);
-
-        quotePanel.setBackground(new Color(210, 210, 210));
-        quotePanel.setBounds(70, 10, 650, 130);
 
         this.add(quotePanel);
 
@@ -211,11 +228,11 @@ class QuoteFragment extends JPanel {
             select = new JButton(">>");
             select.setBounds(10, 10, 50, 30);
             QuoteFragment temp = this;
-            select.addActionListener(e -> {
-                context.edit(temp);
-            });
+            select.addActionListener(e -> context.edit(temp));
             this.add(select);
         }
+
+        this.revalidate();
     }
 }
 

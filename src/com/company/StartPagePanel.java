@@ -8,13 +8,14 @@ public class StartPagePanel extends JPanel {
         this.setLayout(null);
         this.setBackground(new Color(220,220,220));
 
-        // создание и обновление соединения с сервером
-        main.database = new ServerHelper();
-
         int bw = 100, bh = 30;
 
         JButton enter = new JButton("Войти");
-        enter.addActionListener(e -> main.changePage(new EnterPagePanel(main)));
+        enter.addActionListener(e -> {
+            main.database = new ServerHelper();
+            main.table.update(main);
+            main.changePage(new EnterPagePanel(main));
+        });
         enter.setBounds(
                 main.getWidth()/2-bw/2, main.getHeight()/3-bh/2,
                 bw, bh
@@ -22,7 +23,11 @@ public class StartPagePanel extends JPanel {
 
         bw = 150;
         JButton reg = new JButton("Регистрация");
-        reg.addActionListener(e -> main.changePage(new RegPagePanel(main)));
+        reg.addActionListener(e -> {
+            main.database = new ServerHelper();
+            main.table.update(main);
+            main.changePage(new RegPagePanel(main));
+        });
         reg.setBounds(
                 main.getWidth()/2-bw/2, main.getHeight()/3-bh/2+bh+10,
                 bw, bh
@@ -30,7 +35,11 @@ public class StartPagePanel extends JPanel {
 
         bw = 200;
         JButton enterGuest = new JButton("Вход без регистрации");
-        enterGuest.addActionListener(e -> main.changePage(new ReaderPagePanel(main)));
+        enterGuest.addActionListener(e -> {
+            main.database = new ServerHelper();
+            main.table.update(main);
+            main.changePage(new ReaderPagePanel(main));
+        });
         enterGuest.setBounds(
                 main.getWidth()/2-bw/2, main.getHeight()/3-bh/2+(bh+10)*2,
                 bw, bh

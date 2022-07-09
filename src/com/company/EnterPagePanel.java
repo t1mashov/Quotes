@@ -35,7 +35,7 @@ public class EnterPagePanel extends JPanel {
         enter.setBounds(main.getWidth()/2-50, main.getHeight()/2, 100, 30);
 
 
-        ArrayList<User> users = main.database.getUsers();
+        ArrayList<User> users = TableObjectsBox.users;
         enter.addActionListener(e -> {
 
             // проверка на правильность логина и пароля

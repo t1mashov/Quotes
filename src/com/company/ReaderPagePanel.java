@@ -3,6 +3,7 @@ package com.company;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ReaderPagePanel extends JPanel {
     public ReaderPagePanel(Main main) {
@@ -15,7 +16,8 @@ public class ReaderPagePanel extends JPanel {
 
         JPanel table = new JPanel();
         table.setBackground(new Color(220,220,220));
-        ArrayList<Quote> allQuotes = main.database.getQuotes();
+        //ArrayList<Quote> allQuotes = main.database.getQuotes();
+        ArrayList<Quote> allQuotes = TableObjectsBox.quotes;
 
         table.setLayout(new GridLayout(allQuotes.size(), 1));
         for (Quote q : allQuotes) {
@@ -33,6 +35,15 @@ public class ReaderPagePanel extends JPanel {
 
         this.add(scrollTable);
         this.add(back);
-        this.repaint();
+
+        Arrays.stream(table.getComponents())
+                .forEach(c -> {
+                    ((QuoteFragment) c).revalidate();
+                });
+        table.revalidate();
+        table.repaint();
+        scrollTable.revalidate();
+        scrollTable.repaint();
+
     }
 }

@@ -11,6 +11,16 @@ class Group {
         this.id = id;
         this.num = num;
     }
+
+    public static Group findGroupById(int id) {
+        try {
+            return TableObjectsBox.groups.stream()
+                    .filter(g -> g.id==id)
+                    .toArray(Group[]::new)[0];
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
 
 class User {
@@ -31,13 +41,17 @@ class User {
     // установить/обновить список подчиненных пользователей
     public void updateControlledUserId(Main main) {
         controlledUserId = new TreeSet<>();
-        ArrayList<UserRole> userRoles = main.database.getUsersRoles();
-        ArrayList<Role> roles = main.database.getRoles();
-        ArrayList<User> users = main.database.getUsers();
+
+        main.table.updateUserRoles();
+        main.table.updateUsers();
+
+        ArrayList<UserRole> userRoles = TableObjectsBox.userRoles;
+        ArrayList<Role> roles = TableObjectsBox.roles;
+        ArrayList<User> users = TableObjectsBox.users;
 
         for (UserRole ur : userRoles) {
             if (ur.id_user == id) {
-                if (ur.id_role == Role.findIdByName(roles, "super_user")) {
+                if (ur.id_role == Role.findIdByName("super_user")) {
                     controlledUserId.addAll(users.stream()
                             .map(u -> u.id)
                             .collect(Collectors.toSet()));
@@ -54,9 +68,17 @@ class User {
                 }
             }
         }
-
         System.out.println(Arrays.toString(controlledUserId.toArray()));
+    }
 
+    public static User findUserById(int id) {
+        try {
+            return TableObjectsBox.users.stream()
+                    .filter(u -> u.id==id)
+                    .toArray(User[]::new)[0];
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
 
@@ -76,11 +98,6 @@ class Quote {
         this.date = date;
         this.user_id = user_id;
     }
-}
-
-class UserQuote {
-    public int id_user;
-    public int id_quote;
 }
 
 class UserRole {
@@ -106,6 +123,16 @@ class Role {
     public static int findIdByName(ArrayList<Role> roles, String name) {
         try {
             return roles.stream()
+                    .filter(r -> r.name.equals(name))
+                    .toArray(Role[]::new)[0].id;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    public static int findIdByName(String name) {
+        try {
+            return TableObjectsBox.roles.stream()
                     .filter(r -> r.name.equals(name))
                     .toArray(Role[]::new)[0].id;
         } catch (Exception e) {

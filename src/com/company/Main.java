@@ -11,6 +11,7 @@ public class Main extends JFrame {
     Stack<JPanel> pagesHistory = new Stack<>();
     ServerHelper database;
     User currentUser = null;
+    TableObjectsBox table = new TableObjectsBox(this);
 
     private int width = 800;
     private int height = 600;
@@ -29,6 +30,7 @@ public class Main extends JFrame {
         panel.setBounds(0, 0, width, height);
         this.add(panel);
         this.pagesHistory.add(panel);
+        this.revalidate();
         this.repaint();
     }
 
@@ -42,6 +44,7 @@ public class Main extends JFrame {
         this.setTitle("Quotes");
         this.setLayout(null);
         this.setResizable(false);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
