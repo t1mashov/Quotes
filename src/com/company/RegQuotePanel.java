@@ -141,6 +141,7 @@ public class RegQuotePanel extends JPanel {
         this.repaint();
     }
 
+    // включить режим редактирования
     public void edit(QuoteFragment fragment) {
         selectedQuote = fragment.q;
         if (nq!=null) this.remove(nq);
@@ -166,12 +167,14 @@ public class RegQuotePanel extends JPanel {
     }
 }
 
+// фрагмент panel для отображения цитат в списке
 class QuoteFragment extends JPanel {
 
     public JButton select;
     public JPanel quotePanel;
-    public Quote q;
     public JLabel quote, subject, teacher, date;
+    // для определения id выделенной цитаты
+    public Quote q;
 
     public QuoteFragment(boolean canEdit, Quote _quote, RegQuotePanel context) {
         this.setLayout(null);
@@ -187,7 +190,7 @@ class QuoteFragment extends JPanel {
 
         subject = new JLabel(_quote.subject);
         teacher = new JLabel(_quote.teacher);
-        date = new JLabel(_quote.date.toString());
+        date = new JLabel(_quote.date!=null ? _quote.date.toString() : "");
 
         subject.setBounds(5, 70, 200, 30);
         teacher.setBounds(600-teacher.getText().length()*5, 70, 200, 30);
@@ -216,6 +219,7 @@ class QuoteFragment extends JPanel {
     }
 }
 
+// фрагмент panel для полей для изменения/добавления записи
 class QuoteFillFragment extends JPanel {
 
     public JPanel attrs;

@@ -9,7 +9,7 @@ public class Main extends JFrame {
     }
 
     Stack<JPanel> pagesHistory = new Stack<>();
-    ServerHelper database = new ServerHelper();
+    ServerHelper database;
     User currentUser = null;
 
     private int width = 800;

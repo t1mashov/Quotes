@@ -8,6 +8,9 @@ public class StartPagePanel extends JPanel {
         this.setLayout(null);
         this.setBackground(new Color(220,220,220));
 
+        // создание и обновление соединения с сервером
+        main.database = new ServerHelper();
+
         int bw = 100, bh = 30;
 
         JButton enter = new JButton("Войти");

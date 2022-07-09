@@ -18,6 +18,8 @@ public class ServerHelper {
         }
     }
 
+
+
     public ArrayList<Group> getGroups() {
         ArrayList<Group> groups = new ArrayList<>();
         String query = "SELECT * FROM `group`";
@@ -32,6 +34,8 @@ public class ServerHelper {
         } catch (Exception e) {}
         return groups;
     }
+
+
 
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
@@ -49,6 +53,8 @@ public class ServerHelper {
         } catch (Exception e) {}
         return users;
     }
+
+
 
     public void registerUser(String login, String password, int id_group) {
         try {
@@ -79,6 +85,7 @@ public class ServerHelper {
     }
 
 
+
     public ArrayList<Quote> getQuotes() {
         ArrayList<Quote> quotes = new ArrayList<>();
 
@@ -100,6 +107,8 @@ public class ServerHelper {
         return quotes;
     }
 
+
+
     public ArrayList<UserRole> getUsersRoles() {
         ArrayList<UserRole> usersRoles = new ArrayList<>();
         try {
@@ -117,6 +126,8 @@ public class ServerHelper {
         return usersRoles;
     }
 
+
+
     public ArrayList<Role> getRoles() {
         ArrayList<Role> roles = new ArrayList<>();
         try {
@@ -133,16 +144,22 @@ public class ServerHelper {
         return roles;
     }
 
+
+
     public void addQuote(int userId, String quote, String subject, String teacher, String date) {
         try {
-            statement.executeUpdate(
-                    "INSERT INTO `quote` (`subject`, `teacher`, `quote`, `date`, `user_id`)" +
-                        "VALUES (\""+subject+"\", \""+teacher+"\", \""+quote+"\", Date(\""+date+"\"), "+userId+")"
-            );
+            String query = date.equals("")
+                    ? "INSERT INTO `quote` (`subject`, `teacher`, `quote`, `user_id`)" +
+                            "VALUES (\""+subject+"\", \""+teacher+"\", \""+quote+"\", "+userId+")"
+                    : "INSERT INTO `quote` (`subject`, `teacher`, `quote`, `date`, `user_id`)" +
+                            "VALUES (\""+subject+"\", \""+teacher+"\", \""+quote+"\", Date(\""+date+"\"), "+userId+")";
+            statement.executeUpdate(query);
         } catch (Exception e) {
             System.out.println("ERROR IN addQuote()");
         }
     }
+
+
 
     public void updateUserData(int userId, String userLogin, String userPassword, int userIdGroup) {
         try {
@@ -156,6 +173,8 @@ public class ServerHelper {
             System.out.println("ERROR IN updateUserData()");
         }
     }
+
+
 
     public void updateQuote(int quoteId, String subject, String teacher, String quote, String date) {
         try {
@@ -171,6 +190,8 @@ public class ServerHelper {
             System.out.println("ERROR IN updateQuote()");
         }
     }
+
+
 
     public void deleteQuote(int id) {
         try {
