@@ -69,6 +69,9 @@ public class RegQuotePanel extends JPanel {
             this.remove(undo);
             this.remove(nq);
 
+            // сохранение позиции scroll
+            int currentScroll = scrollTable.getVerticalScrollBar().getValue();
+
             main.database.updateQuote(
                     selectedQuote.id,
                     nq.subject.getText(),
@@ -81,6 +84,8 @@ public class RegQuotePanel extends JPanel {
             updateContentPanel();
             this.add(newQuote);
             main.revalidate();
+
+            scrollTable.getVerticalScrollBar().setValue(currentScroll);
         });
 
         delete = new JButton("Удалить");
@@ -91,12 +96,17 @@ public class RegQuotePanel extends JPanel {
             this.remove(undo);
             this.remove(nq);
 
+            // сохранение позиции scroll
+            int currentScroll = scrollTable.getVerticalScrollBar().getValue();
+
             main.database.deleteQuote(selectedQuote.id);
             main.table.updateQuotes();
 
             updateContentPanel();
             this.add(newQuote);
             main.revalidate();
+
+            scrollTable.getVerticalScrollBar().setValue(currentScroll);
         });
 
         undo = new JButton("Отмена");
@@ -132,6 +142,9 @@ public class RegQuotePanel extends JPanel {
             this.remove(nq);
             this.repaint();
 
+            // сохранение позиции scroll
+            int currentScroll = scrollTable.getVerticalScrollBar().getValue();
+
             main.database.addQuote(
                     main.currentUser.id,
                     nq.quoteArea.getText(),
@@ -143,6 +156,7 @@ public class RegQuotePanel extends JPanel {
 
             updateContentPanel();
             main.revalidate();
+            scrollTable.getVerticalScrollBar().setValue(currentScroll);
         });
 
 
