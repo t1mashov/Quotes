@@ -163,7 +163,6 @@ public class ServerHelper {
 
     public void updateUserData(int userId, String userLogin, String userPassword, int userIdGroup) {
         try {
-            System.out.println(userId+", "+userLogin+", "+userPassword+", "+userIdGroup);
             statement.executeUpdate(
                     "UPDATE `user` "+
                         "SET `login` = \""+userLogin+"\", `password` = \""+userPassword+"\", `id_group` = "+userIdGroup+" "+

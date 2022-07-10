@@ -20,11 +20,10 @@ public class Main extends JFrame {
         start();
 
         // переход на первую страницу
-        JPanel pageStart = new StartPagePanel(this);
-        pageStart.setBounds(0, 0, width, height);
-        this.changePage(pageStart);
+        this.changePage(new StartPagePanel(this));
     }
 
+    // переход на новую стрвницу
     public void changePage(JPanel panel) {
         this.getContentPane().removeAll();
         panel.setBounds(0, 0, width, height);
@@ -34,6 +33,7 @@ public class Main extends JFrame {
         this.repaint();
     }
 
+    // переход на предыдущую страницу
     public void previousPage() {
         this.pagesHistory.pop();
         changePage(this.pagesHistory.pop());

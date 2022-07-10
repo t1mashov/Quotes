@@ -16,7 +16,6 @@ public class ReaderPagePanel extends JPanel {
 
         JPanel table = new JPanel();
         table.setBackground(new Color(220,220,220));
-        //ArrayList<Quote> allQuotes = main.database.getQuotes();
         ArrayList<Quote> allQuotes = TableObjectsBox.quotes;
 
         table.setLayout(new GridLayout(allQuotes.size(), 1));
@@ -35,15 +34,6 @@ public class ReaderPagePanel extends JPanel {
 
         this.add(scrollTable);
         this.add(back);
-
-        Arrays.stream(table.getComponents())
-                .forEach(c -> {
-                    ((QuoteFragment) c).revalidate();
-                });
-        table.revalidate();
-        table.repaint();
-        scrollTable.revalidate();
-        scrollTable.repaint();
 
     }
 }

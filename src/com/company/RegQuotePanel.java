@@ -19,6 +19,7 @@ public class RegQuotePanel extends JPanel {
         if (table!=null) this.remove(table);
         if (scrollTable!=null) this.remove(scrollTable);
 
+        // панель с цитатами
         table = new JPanel();
         table.setBackground(new Color(220,220,220));
         main.table.updateQuotes();
@@ -34,6 +35,7 @@ public class RegQuotePanel extends JPanel {
         }
         table.setPreferredSize(new Dimension(main.getWidth()-20, allQuotes.size()*130));
 
+        // прокрутка для панели с цитатами
         scrollTable = new JScrollPane(table);
         scrollTable.setBounds(10, 10, main.getWidth()-40, main.getHeight()/2-10);
         scrollTable.getVerticalScrollBar().setUnitIncrement(5);
@@ -55,7 +57,7 @@ public class RegQuotePanel extends JPanel {
         back.addActionListener(e -> main.previousPage());
         back.setBounds(50, main.getHeight()-100, 50, 30);
 
-
+        // панель для создания/редактирования записи
         nq = new QuoteFillFragment();
         nq.setBounds(50, main.getHeight()/2+20, main.getWidth()-100, 150);
 
@@ -149,7 +151,7 @@ public class RegQuotePanel extends JPanel {
         this.add(scrollTable);
     }
 
-    // включить режим редактирования
+    // функция включения режима редактирования
     public void edit(QuoteFragment fragment) {
         selectedQuote = fragment.q;
         if (nq!=null) this.remove(nq);
