@@ -13,7 +13,7 @@ public class StartPagePanel extends JPanel {
         JButton enter = new JButton("Войти");
         enter.addActionListener(e -> {
             main.database = new ServerHelper();
-            main.table.update(main);
+            main.table.update();
             main.changePage(new EnterPagePanel(main));
         });
         enter.setBounds(
@@ -25,7 +25,7 @@ public class StartPagePanel extends JPanel {
         JButton reg = new JButton("Регистрация");
         reg.addActionListener(e -> {
             main.database = new ServerHelper();
-            main.table.update(main);
+            main.table.update();
             main.changePage(new RegPagePanel(main));
         });
         reg.setBounds(
@@ -37,7 +37,7 @@ public class StartPagePanel extends JPanel {
         JButton enterGuest = new JButton("Вход без регистрации");
         enterGuest.addActionListener(e -> {
             main.database = new ServerHelper();
-            main.table.update(main);
+            main.table.update();
             main.changePage(new ReaderPagePanel(main));
         });
         enterGuest.setBounds(

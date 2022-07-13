@@ -66,9 +66,11 @@ public class RegPagePanel extends JPanel {
             String userPassword = password.getText();
             if (usersLogins.contains(userLogin)) {
                 error.setText("<html><span style=\"color:red\">Данный логин уже существует!</span></html>");
-            } else if (userLogin.equals("")) {
+            }
+            else if (userLogin.equals("")) {
                 error.setText("<html><span style=\"color:red\">Укажите логин!</span></html>");
-            } else {
+            }
+            else {
                 error.setText("");
 
                 // Процесс регистрации

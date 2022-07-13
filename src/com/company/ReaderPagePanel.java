@@ -3,7 +3,6 @@ package com.company;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ReaderPagePanel extends JPanel {
     public ReaderPagePanel(Main main) {

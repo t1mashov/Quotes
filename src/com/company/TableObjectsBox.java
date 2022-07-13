@@ -15,7 +15,7 @@ public class TableObjectsBox {
         this.main = main;
     }
 
-    public void update(Main main) {
+    public void update() {
         groups = main.database.getGroups();
         quotes = main.database.getQuotes();
         roles = main.database.getRoles();

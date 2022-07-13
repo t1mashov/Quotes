@@ -46,7 +46,6 @@ class User {
         main.table.updateUsers();
 
         ArrayList<UserRole> userRoles = TableObjectsBox.userRoles;
-        ArrayList<Role> roles = TableObjectsBox.roles;
         ArrayList<User> users = TableObjectsBox.users;
 
         for (UserRole ur : userRoles) {
@@ -57,13 +56,13 @@ class User {
                             .collect(Collectors.toSet()));
                     return;
                 }
-                if (ur.id_role == Role.findIdByName(roles, "verificator")) {
+                if (ur.id_role == Role.findIdByName("verificator")) {
                     controlledUserId.addAll(users.stream()
                             .filter(u -> u.id_group==ur.verify_group_id)
                             .map(u -> u.id)
                             .collect(Collectors.toSet()));
                 }
-                if (ur.id_role == Role.findIdByName(roles, "default_user")) {
+                if (ur.id_role == Role.findIdByName("default_user")) {
                     controlledUserId.add(id);
                 }
             }
@@ -119,15 +118,6 @@ class Role {
     public Role(int id, String name) {
         this.id = id;
         this.name = name;
-    }
-    public static int findIdByName(ArrayList<Role> roles, String name) {
-        try {
-            return roles.stream()
-                    .filter(r -> r.name.equals(name))
-                    .toArray(Role[]::new)[0].id;
-        } catch (Exception e) {
-            return -1;
-        }
     }
 
     public static int findIdByName(String name) {
